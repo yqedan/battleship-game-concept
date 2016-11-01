@@ -37,8 +37,8 @@ import { Game } from './game.model';
 
 export class AppComponent {
   public myGame:Game = new Game();
-  public dummyArray = new Array(10);
-  public letterArray = ["A","B","C","D","E","F","G","H","I","J"];
+  public dummyArray = new Array(3);
+  public letterArray = ["A","B","C"]; //,"D","E","F","G","H","I","J"];
   generateFakeShips(){
     this.myGame.board[9][2].ship = true;
     this.myGame.board[9][3].ship = true;
