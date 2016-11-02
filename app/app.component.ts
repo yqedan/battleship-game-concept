@@ -28,40 +28,15 @@ import { Game } from './game.model';
           </td>
         </tr>
       </table>
-      <br>
-      <button class="btn"(click)="generateFakeShips()">Generate non-random ships!</button>
     </div>
   </div>
   `
 })
 
 export class AppComponent {
-  public myGame:Game = new Game();
-  public dummyArray = new Array(3);
-  public letterArray = ["A","B","C"]; //,"D","E","F","G","H","I","J"];
-  generateFakeShips(){
-    this.myGame.board[9][2].ship = true;
-    this.myGame.board[9][3].ship = true;
-
-    this.myGame.board[7][6].ship = true;
-    this.myGame.board[8][6].ship = true;
-    this.myGame.board[9][6].ship = true;
-
-    this.myGame.board[3][3].ship = true;
-    this.myGame.board[4][3].ship = true;
-    this.myGame.board[5][3].ship = true;
-
-    this.myGame.board[0][1].ship = true;
-    this.myGame.board[0][2].ship = true;
-    this.myGame.board[0][3].ship = true;
-    this.myGame.board[0][4].ship = true;
-
-    this.myGame.board[1][7].ship = true;
-    this.myGame.board[2][7].ship = true;
-    this.myGame.board[3][7].ship = true;
-    this.myGame.board[4][7].ship = true;
-    this.myGame.board[5][7].ship = true;
-  }
+  public myGame:Game = new Game(10,10);
+  public dummyArray = new Array(10);
+  public letterArray = ["A","B","C","D","E","F","G","H","I","J"];
   fire(selectedSquare:Square,row: number,col: number){
     if (selectedSquare.ship === true) {
       this.myGame.board[row][col].hit = true;
