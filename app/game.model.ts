@@ -9,13 +9,14 @@ export class Game{
         this.board[i][j] = new Square();
       }
     }
-    this.generate2by1();
-    this.generate3by1();
-    this.generate3by1();
-    this.generate4by1();
-    this.generate5by1();
+    this.generate2by1(0);
+    this.generate3by1(1);
+    this.generate3by1(2);
+    this.generate4by1(3);
+    this.generate5by1(4);
+    console.log(this.board);
   }
-  generate2by1(){
+  generate2by1(id:number){
     var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
     var randomSuccess:boolean = false;
     var randCol = 0;
@@ -32,7 +33,9 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow][randCol+1].ship = true;
+      this.board[randRow][randCol+1].id = id;
     }
     else{
       //2x1 random logic vertical
@@ -47,11 +50,13 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow+1][randCol].ship = true;
+      this.board[randRow+1][randCol].id = id;
     }
   }
 
-  generate3by1(){
+  generate3by1(id:number){
     var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
     var randomSuccess:boolean = false;
     var randCol = 0;
@@ -69,8 +74,11 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow][randCol+1].ship = true;
+      this.board[randRow][randCol+1].id = id;
       this.board[randRow][randCol+2].ship = true;
+      this.board[randRow][randCol+2].id = id;
     }
     else{
       //3x1 random logic vertical
@@ -86,12 +94,15 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow+1][randCol].ship = true;
+      this.board[randRow+1][randCol].id = id;
       this.board[randRow+2][randCol].ship = true;
+      this.board[randRow+2][randCol].id = id;
     }
   }
 
-  generate4by1(){
+  generate4by1(id:number){
     var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
     var randomSuccess:boolean = false;
     var randCol = 0;
@@ -110,9 +121,13 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow][randCol+1].ship = true;
+      this.board[randRow][randCol+1].id = id;
       this.board[randRow][randCol+2].ship = true;
+      this.board[randRow][randCol+2].id = id;
       this.board[randRow][randCol+3].ship = true;
+      this.board[randRow][randCol+3].id = id;
     }
     else{
       //4x1 random logic vertical
@@ -129,13 +144,17 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow+1][randCol].ship = true;
+      this.board[randRow+1][randCol].id = id;
       this.board[randRow+2][randCol].ship = true;
+      this.board[randRow+2][randCol].id = id;
       this.board[randRow+3][randCol].ship = true;
+      this.board[randRow+3][randCol].id = id;
     }
   }
 
-  generate5by1(){
+  generate5by1(id:number){
     var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
     var randomSuccess:boolean = false;
     var randCol = 0;
@@ -155,10 +174,15 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow][randCol+1].ship = true;
+      this.board[randRow][randCol+1].id = id;
       this.board[randRow][randCol+2].ship = true;
+      this.board[randRow][randCol+2].id = id;
       this.board[randRow][randCol+3].ship = true;
+      this.board[randRow][randCol+3].id = id;
       this.board[randRow][randCol+4].ship = true;
+      this.board[randRow][randCol+4].id = id;
     }
     else{
       //5x1 random logic vertical
@@ -176,10 +200,15 @@ export class Game{
         }
       }while(randomSuccess === false);
       this.board[randRow][randCol].ship = true;
+      this.board[randRow][randCol].id = id;
       this.board[randRow+1][randCol].ship = true;
+      this.board[randRow+1][randCol].id = id;
       this.board[randRow+2][randCol].ship = true;
+      this.board[randRow+2][randCol].id = id;
       this.board[randRow+3][randCol].ship = true;
+      this.board[randRow+3][randCol].id = id;
       this.board[randRow+4][randCol].ship = true;
+      this.board[randRow+4][randCol].id = id;
     }
   }
 }
