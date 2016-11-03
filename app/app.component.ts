@@ -37,7 +37,7 @@ import { Game } from './game.model';
 export class AppComponent {
   public myGame:Game = new Game(10,10);
   public dummyArray = new Array(10);
-  public letterArray = ["A","B","C","D","E","F","G","H","I","J"];
+  public letterArray:String[] = ["A","B","C","D","E","F","G","H","I","J"];
   fire(selectedSquare:Square,row: number,col: number){
     this.myGame.fire(selectedSquare,row,col);
   }

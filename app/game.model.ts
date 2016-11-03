@@ -3,26 +3,25 @@ import { Square } from './square.model';
 export class Game{
   public board = {};
   constructor(public boardRows:number, public boardColumns:number){
-    for(var i: number = 0; i < boardRows; i++) {
+    for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
-      for(var j: number = 0; j< boardColumns; j++) {
+      for (var j: number = 0; j< boardColumns; j++) {
         this.board[i][j] = new Square();
       }
     }
-    this.generate2by1(0);
-    this.generate3by1(1);
-    this.generate3by1(2);
-    this.generate4by1(3);
-    this.generate5by1(4);
-    console.log(this.board);
+    this.generateShip(0,2); //2x1
+    this.generateShip(1,3); //3x1
+    this.generateShip(2,3); //3x1
+    this.generateShip(3,4); //4x1
+    this.generateShip(4,5); //5x1
   }
   fire(selectedSquare:Square,row: number,col: number){
-    var sunkCounter = 0;
+    var sunkCounter:number = 0;
     var sunkBuffer:String[] = [];
     if (selectedSquare.ship === true) {
       this.board[row][col].hit = true;
-      for(var i: number = 0; i < this.boardRows; i++) {
-        for(var j: number = 0; j< this.boardColumns; j++) {
+      for (var i: number = 0; i < this.boardRows; i++) {
+        for (var j: number = 0; j< this.boardColumns; j++) {
           if(this.board[i][j].id === selectedSquare.id && this.board[i][j].hit === true){
             sunkBuffer.push(String(i)+String(j));
             sunkCounter++
@@ -39,203 +38,55 @@ export class Game{
         }
       }
     }
-    else{
+    else {
       this.board[row][col].miss = true;
     }
   }
-  generate2by1(id:number){
-    var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
-    var randomSuccess:boolean = false;
-    var randCol = 0;
-    var randRow = 0;
-    if(horizontalOrVertical){
-      //2x1 random logic horizontal
-      do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randCol + 1 < this.boardColumns
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow][randCol+1].ship === false ){
-          randomSuccess = true;
-        }
-      }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow][randCol+1].ship = true;
-      this.board[randRow][randCol+1].id = id;
-    }
-    else{
-      //2x1 random logic vertical
-      randomSuccess = false;
-      do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randRow + 1 < this.boardRows
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow+1][randCol].ship === false ){
-          randomSuccess = true;
-        }
-      }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow+1][randCol].ship = true;
-      this.board[randRow+1][randCol].id = id;
-    }
-  }
 
-  generate3by1(id:number){
+  generateShip(id:number,size:number){
     var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
-    var randomSuccess:boolean = false;
+    var randomSuccess:boolean = true;
     var randCol = 0;
     var randRow = 0;
-    if(horizontalOrVertical){
-      //3x1 random logic horizontal
+    if (horizontalOrVertical) {
       do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randCol + 2 < this.boardColumns
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow][randCol+1].ship === false
-          && this.board[randRow][randCol+2].ship === false ){
-          randomSuccess = true;
+        randCol = Math.floor(Math.random() * this.boardColumns);
+        randRow = Math.floor(Math.random() * this.boardRows);
+        randomSuccess = true;
+        for (let i = 0; i < size; i++) {
+          if (randCol + (size-1) < this.boardColumns) {
+            if (this.board[randRow][randCol+i].ship) {
+              randomSuccess = false;
+            }
+          }else {
+            randomSuccess = false;
+          }
         }
       }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow][randCol+1].ship = true;
-      this.board[randRow][randCol+1].id = id;
-      this.board[randRow][randCol+2].ship = true;
-      this.board[randRow][randCol+2].id = id;
+      for (let i = 0; i < size; i++) {
+        this.board[randRow][randCol+i].ship = true;
+        this.board[randRow][randCol+i].id = id;
+      }
     }
-    else{
-      //3x1 random logic vertical
-      randomSuccess = false;
+    else {
       do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randRow + 2 < this.boardRows
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow+1][randCol].ship === false
-          && this.board[randRow+2][randCol].ship === false ){
-          randomSuccess = true;
+        randCol = Math.floor(Math.random() * this.boardColumns);
+        randRow = Math.floor(Math.random() * this.boardRows);
+        randomSuccess = true;
+        for (let i = 0; i < size; i++) {
+          if (randRow + (size-1) < this.boardRows) {
+            if (this.board[randRow+i][randCol].ship) {
+              randomSuccess = false;
+            }
+          }else {
+            randomSuccess = false;
+          }
         }
       }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow+1][randCol].ship = true;
-      this.board[randRow+1][randCol].id = id;
-      this.board[randRow+2][randCol].ship = true;
-      this.board[randRow+2][randCol].id = id;
-    }
-  }
-
-  generate4by1(id:number){
-    var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
-    var randomSuccess:boolean = false;
-    var randCol = 0;
-    var randRow = 0;
-    if(horizontalOrVertical){
-      //4x1 random logic horizontal
-      do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randCol + 3 < this.boardColumns
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow][randCol+1].ship === false
-          && this.board[randRow][randCol+2].ship === false
-          && this.board[randRow][randCol+3].ship === false ){
-          randomSuccess = true;
-        }
-      }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow][randCol+1].ship = true;
-      this.board[randRow][randCol+1].id = id;
-      this.board[randRow][randCol+2].ship = true;
-      this.board[randRow][randCol+2].id = id;
-      this.board[randRow][randCol+3].ship = true;
-      this.board[randRow][randCol+3].id = id;
-    }
-    else{
-      //4x1 random logic vertical
-      randomSuccess = false;
-      do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randRow + 3 < this.boardRows
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow+1][randCol].ship === false
-          && this.board[randRow+2][randCol].ship === false
-          && this.board[randRow+3][randCol].ship === false ){
-          randomSuccess = true;
-        }
-      }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow+1][randCol].ship = true;
-      this.board[randRow+1][randCol].id = id;
-      this.board[randRow+2][randCol].ship = true;
-      this.board[randRow+2][randCol].id = id;
-      this.board[randRow+3][randCol].ship = true;
-      this.board[randRow+3][randCol].id = id;
-    }
-  }
-
-  generate5by1(id:number){
-    var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
-    var randomSuccess:boolean = false;
-    var randCol = 0;
-    var randRow = 0;
-    if(horizontalOrVertical){
-      //5x1 random logic horizontal
-      do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randCol + 4 < this.boardColumns
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow][randCol+1].ship === false
-          && this.board[randRow][randCol+2].ship === false
-          && this.board[randRow][randCol+3].ship === false
-          && this.board[randRow][randCol+4].ship === false ){
-          randomSuccess = true;
-        }
-      }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow][randCol+1].ship = true;
-      this.board[randRow][randCol+1].id = id;
-      this.board[randRow][randCol+2].ship = true;
-      this.board[randRow][randCol+2].id = id;
-      this.board[randRow][randCol+3].ship = true;
-      this.board[randRow][randCol+3].id = id;
-      this.board[randRow][randCol+4].ship = true;
-      this.board[randRow][randCol+4].id = id;
-    }
-    else{
-      //5x1 random logic vertical
-      randomSuccess = false;
-      do{
-        randCol =  Math.floor(Math.random() * this.boardColumns);
-        randRow =  Math.floor(Math.random() * this.boardRows);
-        if(randRow + 4 < this.boardRows
-          && this.board[randRow][randCol].ship === false
-          && this.board[randRow+1][randCol].ship === false
-          && this.board[randRow+2][randCol].ship === false
-          && this.board[randRow+3][randCol].ship === false
-          && this.board[randRow+4][randCol].ship === false ){
-          randomSuccess = true;
-        }
-      }while(randomSuccess === false);
-      this.board[randRow][randCol].ship = true;
-      this.board[randRow][randCol].id = id;
-      this.board[randRow+1][randCol].ship = true;
-      this.board[randRow+1][randCol].id = id;
-      this.board[randRow+2][randCol].ship = true;
-      this.board[randRow+2][randCol].id = id;
-      this.board[randRow+3][randCol].ship = true;
-      this.board[randRow+3][randCol].id = id;
-      this.board[randRow+4][randCol].ship = true;
-      this.board[randRow+4][randCol].id = id;
+      for (let i = 0; i < size; i++) {
+        this.board[randRow+i][randCol].ship = true;
+        this.board[randRow+i][randCol].id = id;
+      }
     }
   }
 }
