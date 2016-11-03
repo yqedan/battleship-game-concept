@@ -16,6 +16,33 @@ export class Game{
     this.generate5by1(4);
     console.log(this.board);
   }
+  fire(selectedSquare:Square,row: number,col: number){
+    var sunkCounter = 0;
+    var sunkBuffer:String[] = [];
+    if (selectedSquare.ship === true) {
+      this.board[row][col].hit = true;
+      for(var i: number = 0; i < this.boardRows; i++) {
+        for(var j: number = 0; j< this.boardColumns; j++) {
+          if(this.board[i][j].id === selectedSquare.id && this.board[i][j].hit === true){
+            sunkBuffer.push(String(i)+String(j));
+            sunkCounter++
+          }
+        }
+      }
+      if (sunkCounter == 2 && selectedSquare.id == 0 ||
+          sunkCounter == 3 && selectedSquare.id == 1 ||
+          sunkCounter == 3 && selectedSquare.id == 2 ||
+          sunkCounter == 4 && selectedSquare.id == 3 ||
+          sunkCounter == 5 && selectedSquare.id == 4) {
+        for (let i = 0; i < sunkBuffer.length; i++) {
+          this.board[parseInt(sunkBuffer[i][0])][parseInt(sunkBuffer[i][1])].sunk = true;
+        }
+      }
+    }
+    else{
+      this.board[row][col].miss = true;
+    }
+  }
   generate2by1(id:number){
     var horizontalOrVertical:boolean = !(Math.floor(Math.random() * 2));
     var randomSuccess:boolean = false;
