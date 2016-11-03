@@ -30,6 +30,9 @@ import { Game } from './game.model';
         </tr>
       </table>
     </div>
+    <div class= "score-board">
+      <h1>Total clicks:{{myGame.attempts}}</h1>
+    </div>
   </div>
   `
 })

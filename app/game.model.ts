@@ -2,6 +2,7 @@ import { Square } from './square.model';
 
 export class Game{
   public board = {};
+  public attempts:number = 0;
   constructor(public boardRows:number, public boardColumns:number){
     for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
@@ -16,6 +17,10 @@ export class Game{
     this.generateShip(4,5); //5x1
   }
   fire(selectedSquare:Square,row: number,col: number){
+    if (this.board[row][col].hit === false && this.board[row][col].miss === false){
+      this.attempts++;
+    }
+console.log(this.attempts);
     var sunkCounter:number = 0;
     var sunkBuffer:String[] = [];
     if (selectedSquare.ship === true) {
