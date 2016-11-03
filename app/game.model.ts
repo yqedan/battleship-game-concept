@@ -3,6 +3,8 @@ import { Square } from './square.model';
 export class Game{
   public board = {};
   public attempts:number = 0;
+  public hitShip: number = 0;
+
   constructor(public boardRows:number, public boardColumns:number){
     for (var i: number = 0; i < boardRows; i++) {
       this.board[i] = [];
@@ -16,11 +18,14 @@ export class Game{
     this.generateShip(3,4); //4x1
     this.generateShip(4,5); //5x1
   }
+
   fire(selectedSquare:Square,row: number,col: number){
-    if (this.board[row][col].hit === false && this.board[row][col].miss === false){
+    if (selectedSquare.hit === false && selectedSquare.miss === false){
       this.attempts++;
+      if (selectedSquare.ship === true) {
+        this.hitShip++;
+      }
     }
-console.log(this.attempts);
     var sunkCounter:number = 0;
     var sunkBuffer:String[] = [];
     if (selectedSquare.ship === true) {
@@ -29,7 +34,7 @@ console.log(this.attempts);
         for (var j: number = 0; j< this.boardColumns; j++) {
           if(this.board[i][j].id === selectedSquare.id && this.board[i][j].hit === true){
             sunkBuffer.push(String(i)+String(j));
-            sunkCounter++
+            sunkCounter++;
           }
         }
       }
@@ -46,6 +51,9 @@ console.log(this.attempts);
     else {
       this.board[row][col].miss = true;
     }
+    if (this.hitShip === 17) {
+      setTimeout(function(){ alert("you win"); }, .01);
+    }
   }
 
   generateShip(id:number,size:number){
@@ -58,16 +66,16 @@ console.log(this.attempts);
         randCol = Math.floor(Math.random() * this.boardColumns);
         randRow = Math.floor(Math.random() * this.boardRows);
         randomSuccess = true;
-        for (let i = 0; i < size; i++) {
-          if (randCol + (size-1) < this.boardColumns) {
+        if (randCol + (size-1) < this.boardColumns) {
+          for (let i = 0; i < size; i++) {
             if (this.board[randRow][randCol+i].ship) {
               randomSuccess = false;
             }
-          }else {
-            randomSuccess = false;
           }
+        }else {
+          randomSuccess = false;
         }
-      }while(randomSuccess === false);
+      }while(randomSuccess === false)
       for (let i = 0; i < size; i++) {
         this.board[randRow][randCol+i].ship = true;
         this.board[randRow][randCol+i].id = id;
@@ -78,16 +86,16 @@ console.log(this.attempts);
         randCol = Math.floor(Math.random() * this.boardColumns);
         randRow = Math.floor(Math.random() * this.boardRows);
         randomSuccess = true;
-        for (let i = 0; i < size; i++) {
-          if (randRow + (size-1) < this.boardRows) {
+        if (randRow + (size-1) < this.boardRows) {
+          for (let i = 0; i < size; i++) {
             if (this.board[randRow+i][randCol].ship) {
               randomSuccess = false;
             }
+          }
           }else {
             randomSuccess = false;
           }
-        }
-      }while(randomSuccess === false);
+      }while(randomSuccess === false)
       for (let i = 0; i < size; i++) {
         this.board[randRow+i][randCol].ship = true;
         this.board[randRow+i][randCol].id = id;
